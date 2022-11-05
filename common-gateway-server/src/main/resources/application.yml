@@ -1,0 +1,61 @@
+#是否与服务注册于发现组件进行结合，通过 serviceId 转发到具体的服务实例
+#默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # enabled: true 可以通过微服务应用名访问，默认是大写访问（productservices），
+          # lower-case-service-id: true 加上之后，服务应用名开启小写
+          # eg: http://localhost:8080/productservices/goodsinfo/v1/getgoodslist
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        #  用户中心服务
+        - id: hdwallet-server
+          uri: lb://hdwallet-server
+          predicates:
+            - Path= /hdwallet-server/**
+          filters:
+            - StripPrefix=1
+        #  理财中心服务
+        - id: asset-center
+          uri: lb://asset-center
+          predicates:
+            - Path=/asset-center/**
+          filters:
+            - StripPrefix=1
+        #  资产划转服务
+        - id: asset-transfer
+          uri: lb://asset-transfer
+          predicates:
+            - Path=/asset-transfer/**
+          filters:
+            - StripPrefix=1
+        #  后台管理
+        - id: admin-server
+          uri: lb://admin-server
+          predicates:
+            - Path=/admin-server/**
+          filters:
+            - StripPrefix=1
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.102:10761/eureka/
+
+ribbon:
+  ReadTimeout: 55000
+  ConnectTimeout: 55000
+
+feign:
+  client:
+    config:
+      feignName:
+        connectTimeout: 15000
+        readTimeout: 15000
+
+swagger:
+  enabled: true
