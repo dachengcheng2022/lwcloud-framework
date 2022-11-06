@@ -4,7 +4,7 @@ spring:
   jackson:
     time-zone: GMT+8
   application:
-    name: nacos-server
+    name: user-server
   profiles:
     active: test
   cloud:
@@ -12,6 +12,5 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
-
       discovery:
         server-addr: 127.0.0.1:8848

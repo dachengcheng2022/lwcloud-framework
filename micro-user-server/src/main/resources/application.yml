@@ -1,15 +1,14 @@
 ribbon:
   ReadTimeout: 55000
   ConnectTimeout: 55000
-
 feign:
   client:
     config:
       feignName:
         connectTimeout: 15000
         readTimeout: 15000
-
 security:
   basic:
     enabled: false
+
 

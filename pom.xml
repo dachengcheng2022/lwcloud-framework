@@ -30,7 +30,7 @@
     </properties>
 
     <modules>
-        <module>common-nacos-server</module>
+        <module>micro-user-server</module>
         <!--        <module>common-config-server</module>-->
         <!--        <module>common-gateway-server</module>-->
         <!--        资产划转相关接口-->
