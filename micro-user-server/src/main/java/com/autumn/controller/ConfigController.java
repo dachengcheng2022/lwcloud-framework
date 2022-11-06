@@ -21,7 +21,7 @@ public class ConfigController {
 
     @RequestMapping("/get")
     public boolean get() {
-        redisComponent.setForValue("tesst","22222");
+        redisComponent.setForValue("tesst", "22222");
         String s = redisComponent.opsForValue("tesst", "test");
         System.err.println(s);
         return useLocalCache;
