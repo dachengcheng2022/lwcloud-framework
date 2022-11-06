@@ -2,7 +2,7 @@
  * Copyright (c) 2018 All Rights Reserved, Jinxiudadi
  * @Title: GoodsInfoResource.java
  */
-package com.bt.walelt.controller;
+package com.autumn.walelt.controller;
 
 import org.springframework.web.bind.annotation.*;
 

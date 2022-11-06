@@ -39,13 +39,6 @@ spring:
             - Path=/admin-server/**
           filters:
             - StripPrefix=1
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: http://192.168.0.102:10761/eureka/
-
 ribbon:
   ReadTimeout: 55000
   ConnectTimeout: 55000

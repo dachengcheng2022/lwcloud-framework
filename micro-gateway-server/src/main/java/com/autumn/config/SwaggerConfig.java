@@ -1,4 +1,4 @@
-package com.bt.config;
+package com.autumn.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +39,7 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
                 // 是否开启
                 .enable(swaggerEnabled).select()
                 // 扫描的路径包
-                .apis(RequestHandlerSelectors.basePackage("com.bt"))
+                .apis(RequestHandlerSelectors.basePackage("com.autumn"))
                 // 指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any()).build().pathMapping("/");
     }

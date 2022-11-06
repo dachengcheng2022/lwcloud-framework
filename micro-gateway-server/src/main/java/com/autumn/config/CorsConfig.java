@@ -1,4 +1,4 @@
-package com.bt.config;
+package com.autumn.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

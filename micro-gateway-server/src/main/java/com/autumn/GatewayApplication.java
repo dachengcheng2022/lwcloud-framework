@@ -1,9 +1,9 @@
-package com.bt;
+package com.autumn;
 
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @version: V1.0
  */
 @SpringBootApplication
-@EnableScheduling
+@EnableDiscoveryClient
 public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
