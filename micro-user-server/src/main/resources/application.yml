@@ -12,3 +12,16 @@ security:
     enabled: false
 
 
+spring:
+  redis:
+    database: 2
+    host: 120.76.176.30
+    password: lpladUS6
+    timeout: 150ms
+    port: 16379
+    jedis:
+      pool:
+        max-active: 80
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 1
