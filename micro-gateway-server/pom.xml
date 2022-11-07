@@ -7,11 +7,11 @@
         <artifactId>lwcloud-framework</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>common-gateway-server</artifactId>
+    <artifactId>micro-gateway-server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>mall-gateway-server</name>
+    <name>${project.artifactId}</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -42,11 +42,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
@@ -60,28 +55,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <version>${spring-boot.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <excludes>
-                        <exclude>**/*.yml</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>**/*.properties</exclude>
-                    </excludes>
+                    <includes>
+                        <include>**/com/**</include>
+                        <include>**/bootstrap.yml</include>
+                        <include>**/logback-spring.xml</include>
+                    </includes>
                 </configuration>
             </plugin>
-
         </plugins>
 
         <resources>
@@ -89,10 +76,8 @@
                 <directory>src/main/resources/</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/*.ftl</include>
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
-                    <include>**/*.properties</include>
                 </includes>
             </resource>
         </resources>

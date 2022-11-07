@@ -10,3 +10,4 @@ target/
 /tdlib
 /data
 *.env
+*.DS_Store
