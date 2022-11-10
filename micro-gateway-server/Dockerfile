@@ -7,6 +7,10 @@ COPY docker/supervisord.conf /etc/supervisord.conf
 ENV APP_ENV "dev"
 ENV APP_DIR  /usr/local/micro-gateway-server
 
+RUN apt-get update &&  apt-get -y install supervisor \
+    vim \
+    net-tools
+
 RUN  mkdir -p "${APP_DIR}/logs"
 VOLUME [ "${APP_DIR}/logs" ]
 

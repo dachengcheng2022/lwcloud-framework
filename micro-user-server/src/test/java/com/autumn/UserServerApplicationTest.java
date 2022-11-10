@@ -18,7 +18,7 @@ public class UserServerApplicationTest {
         // 访问nacos
         ConfigService configService = NacosFactory.createConfigService("127.0.0.1:8848");
 // 通过DataId和Group获取配置文件内容
-        String contentInfo = configService.getConfig("example.yaml","DEFAULT_GROUP",1000L);
+        String contentInfo = configService.getConfig("user-server-test.yaml","DEFAULT_GROUP",1000L);
         System.err.println(contentInfo);
     }
 }
