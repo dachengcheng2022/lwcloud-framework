@@ -1,17 +1,21 @@
 package com.autumn.controller;
 
 import com.autumn.RedisComponent;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
-@RequestMapping("/config")
-@RefreshScope
-public class ConfigController {
+@RequestMapping("/api/test")
+@Api(tags = "测试接口")
+public class TestController {
 
     @Resource
     private RedisComponent redisComponent;
@@ -19,11 +23,9 @@ public class ConfigController {
     @Value("${useLocalCache:false}")
     private boolean useLocalCache;
 
-    @RequestMapping("/get")
-    public boolean get() {
-        redisComponent.setForValue("tesst", "22222");
-        String s = redisComponent.opsForValue("tesst", "test");
-        System.err.println(s);
-        return useLocalCache;
+    @ApiOperation(value = "test", httpMethod = "GET", response = String.class, notes = "首页行情")
+    @RequestMapping(value = "/v1/test", method = RequestMethod.GET)
+    public String queryIndexCoins() {
+      return "123";
     }
 }

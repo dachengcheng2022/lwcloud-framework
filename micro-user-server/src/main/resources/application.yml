@@ -13,11 +13,45 @@ security:
 
 
 spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #true则url、username、password必须进行加密，设置为false则不使用加密
+    isencrypt: false
+    #    url: jdbc:mysql://rm-t4n9dj0771o19mja9o.mysql.singapore.rds.aliyuncs.com/xwallet?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    #    username: xwallet
+    #    password: xwallet!@#block123
+    url: jdbc:mysql://120.76.176.30:3306/kmcksy-mall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: eaa45a4431ae221f
+
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    # 初始化大小，最小，最大
+    initial-size: 2
+    max-active: 300
+    min-idle: 2
+    max-total: 350
+    # 配置获取连接等待超时的时间
+    max-wait-millis: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    time-between-eviction-runs-millis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    min-evictable-idle-time-millis: 300000
+    validation-query: select 1
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    pool-prepared-statements: true
+    max-open-prepared-statements: 200
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+
   redis:
     database: 2
     host: 120.76.176.30
     password: lpladUS6
-    timeout: 150ms
+    timeout: 15000ms
     port: 16379
     jedis:
       pool:
@@ -25,3 +59,15 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 1
+
+  cloud:
+    nacos:
+      config:
+        enabled: false
+#  解决启动报错
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+swagger:
+  show: true
+
