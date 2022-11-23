@@ -3,6 +3,9 @@ package com.autumn.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
@@ -16,13 +19,13 @@ import java.util.Arrays;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
- * @Description:
+ * @Description: https://juejin.cn/post/6888258941378428941
  * @author: jlm
  * @date: 2020/7/2 10:36
  */
 @Configuration
-@EnableSwagger2
-public class SwaggerConfig {
+@EnableWebMvc
+public class SwaggerConfig  extends WebMvcConfigurationSupport {
 
     @Value("${swagger.show}")
     private boolean swaggerShow = true;
@@ -58,5 +61,12 @@ public class SwaggerConfig {
                 .version("2.0")
                 .build();
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //解决跨域问题
+        registry.addResourceHandler("/**").addResourceLocations("/");
+    }
+
 
 }

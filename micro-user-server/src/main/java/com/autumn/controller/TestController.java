@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api")
 @Api(tags = "测试接口")
 public class TestController {
 
@@ -24,8 +24,15 @@ public class TestController {
     private boolean useLocalCache;
 
     @ApiOperation(value = "test", httpMethod = "GET", response = String.class, notes = "首页行情")
-    @RequestMapping(value = "/v1/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/test/v1/test", method = RequestMethod.GET)
     public String queryIndexCoins() {
       return "123";
+    }
+
+
+    @ApiOperation(value = "test2", httpMethod = "GET", response = String.class, notes = "首页行情")
+    @RequestMapping(value = "/common/v1/test", method = RequestMethod.GET)
+    public String queryIndexCoins2() {
+        return "567";
     }
 }

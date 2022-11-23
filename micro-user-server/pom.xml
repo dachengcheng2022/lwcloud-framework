@@ -52,10 +52,10 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-oauth2-authorization-server</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.autumn</groupId>
@@ -128,6 +128,11 @@
             <artifactId>spring-security-cas</artifactId>
             <version>5.3.4.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.autumn</groupId>
+            <artifactId>autumn-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -143,11 +148,11 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <excludes>
-                        <exclude>**/*.yml</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>**/*.properties</exclude>
-                    </excludes>
+                    <includes>
+                        <include>**/com/**</include>
+                        <include>**/bootstrap.yml</include>
+                        <include>**/logback-spring.xml</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
@@ -159,6 +164,8 @@
                 <includes>
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+
                 </includes>
             </resource>
         </resources>
