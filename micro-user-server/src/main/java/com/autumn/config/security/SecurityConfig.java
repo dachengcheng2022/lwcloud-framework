@@ -1,6 +1,10 @@
 package com.autumn.config.security;
 
+import com.autumn.config.security.exception.AutumnAuthExceptionEntryPoint;
+import com.autumn.config.security.exception.AutumnAuthExceptionEntryPointBack;
+import com.autumn.config.security.exception.WalletAccessDeniedHandler;
 import com.autumn.config.security.integration.authenticator.MallUserDetails;
+import com.autumn.filter.IntegrationAuthenticationFilter;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -11,14 +15,17 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -35,6 +42,7 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -49,15 +57,64 @@ import java.util.UUID;
 @Configuration
 public class SecurityConfig{
 
+
+    @Resource
+    private WalletAccessDeniedHandler walletAccessDeniedHandler;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private IntegrationAuthenticationFilter integrationAuthenticationFilter;
+
+    @Resource
+    private AutumnAuthExceptionEntryPoint autumnAuthExceptionEntryPoint;
+
+    @Resource
+    private AutumnAuthExceptionEntryPointBack autumnAuthExceptionEntryPointBack;
+
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http.exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login"))
-                ).httpBasic().disable();
+
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
+                .authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/oauthapi/**").access("#oauth2.hasScope('read')")
+//                .antMatchers(HttpMethod.POST, "/oauthapi/**").access("#oauth2.hasScope('write')")
+//                .antMatchers("/api/common/**").permitAll()
+//                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/common/**").permitAll()
+//                .antMatchers().authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers().permitAll()
+                .and().httpBasic().disable()
+                .csrf().disable()
+//                .exceptionHandling((exceptions) -> exceptions.accessDeniedHandler(walletAccessDeniedHandler));
+
+                .exceptionHandling((exceptions) -> {
+                    exceptions.accessDeniedHandler(walletAccessDeniedHandler);
+                    exceptions.authenticationEntryPoint(autumnAuthExceptionEntryPoint);
+                }
+        );
+
+//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+//
+//        http.exceptionHandling((exceptions) -> exceptions
+//                .authenticationEntryPoint(
+//                        new LoginUrlAuthenticationEntryPoint("/login"))
+//        ).httpBasic().disable();
+//        http.addFilterBefore(integrationAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -66,14 +123,39 @@ public class SecurityConfig{
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().permitAll())
-                // Form login handles the redirect to the login page from the
-                // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
+//        http.authorizeHttpRequests((authorize) -> authorize
+////                        .antMatchers("/api/common/**").permitAll()
+//                        .antMatchers("/api/**").permitAll()
+//                        .anyRequest().authenticated())
+//                // Form login handles the redirect to the login page from the
+//                // authorization server filter chain
+//                .formLogin(Customizer.withDefaults());
 
+////        return http.build();
+//
+        http.authorizeRequests()
+                .antMatchers("/css/**", "/js/**", "/fonts/**", "/font/**", "/plugins/**", "/img/**", "/webjars/**",
+                        "/**.htmls", "/oauth2/**", "/v2/api-docs", "**/swagger-resources/**","/swagger-ui.html").permitAll()
+//                .antMatchers("/api/common/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .and()
+                .httpBasic().disable()
+                .csrf().disable();
+        http.exceptionHandling((exceptions) -> {
+            exceptions.accessDeniedHandler(walletAccessDeniedHandler);
+            exceptions.authenticationEntryPoint(autumnAuthExceptionEntryPointBack);
+        });
         return http.build();
+
+//
+//        http.authorizeRequests()
+//                .antMatchers("/css/**", "/js/**", "/fonts/**", "/font/**", "/plugins/**", "/img/**", "/webjars/**",
+//                        "/ssadmin/**", "/**.htmls", "/oauth/**", "/mobile/**", "/swagger-ui.html**").permitAll()
+//                .antMatchers("/api/common/**").permitAll()
+//                .and()
+//                .httpBasic().disable()
+//                .csrf().disable();
+//        return http.build();
     }
 
     @Bean
@@ -115,8 +197,10 @@ public class SecurityConfig{
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("messaging-client")
-                .clientSecret("{noop}secret")
+//                .clientSecret("{noop}secret")
+                .clientSecret(passwordEncoder.encode("111111"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)

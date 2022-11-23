@@ -30,9 +30,6 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.util.StringUtils;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
@@ -70,14 +67,14 @@ public class BeanConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public LocaleResolver localeResolver() {
-        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
-        //设置默认区域,
-        slr.setDefaultLocale(Locale.US);
-        slr.setSupportedLocales(Arrays.asList(Locale.SIMPLIFIED_CHINESE, Locale.US,Locale.KOREA,Locale.JAPAN));
-        return slr;
-    }
+//    @Bean
+//    public LocaleResolver localeResolver() {
+//        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
+//        //设置默认区域,
+//        slr.setDefaultLocale(Locale.US);
+//        slr.setSupportedLocales(Arrays.asList(Locale.SIMPLIFIED_CHINESE, Locale.US,Locale.KOREA,Locale.JAPAN));
+//        return slr;
+//    }
 
     @Bean
     public Converter<String, LocalDateTime> LocalDateTimeConvert() {

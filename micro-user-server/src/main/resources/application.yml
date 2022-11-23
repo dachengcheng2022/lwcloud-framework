@@ -64,10 +64,17 @@ spring:
     nacos:
       config:
         enabled: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:10761  #认证中心端点，作为资源端的配置
+
 #  解决启动报错
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
 swagger:
   show: true
-
