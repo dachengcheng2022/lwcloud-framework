@@ -30,6 +30,8 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.util.StringUtils;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
@@ -111,11 +113,6 @@ public class BeanConfig {
         builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer());
         builder.serializerByType(BigDecimal.class, new BigdecimalSerializer());
 
-
-//        SimpleModule bigDecimalModule = new SimpleModule();
-        //序列化将BigDecimal转String类型
-//        bigDecimalModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
-//        ObjectMapper objectMapper = builder.createXmlMapper(false).modulesToInstall(bigDecimalModule).build();
         ObjectMapper objectMapper = builder.build();
 
         objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
@@ -160,11 +157,6 @@ public class BeanConfig {
             }
         }
     }
-//    @Bean
-//    public LocalDateTimeSerializer localdatetimedeserializer() {
-//        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//    }
-
 
     /**
      * 反序列化实现
@@ -200,11 +192,4 @@ public class BeanConfig {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
 
-//    @Bean
-//    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-//        return builder -> builder.modulesToInstall(
-//                SecurityJackson2Modules.getModules(getClass().getClassLoader())
-//                        .toArray(new Module[0])
-//        );
-//    }
 }
