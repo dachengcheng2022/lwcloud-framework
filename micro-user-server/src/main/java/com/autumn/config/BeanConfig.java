@@ -2,10 +2,13 @@ package com.autumn.config;
 
 
 import com.autumn.filter.IntegrationAuthenticationFilter;
+import com.autumn.utils.security.RSAUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
+import com.nimbusds.jose.jwk.RSAKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
@@ -22,6 +25,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +54,24 @@ import java.util.*;
 
 @Configuration
 public class BeanConfig {
+
+    @Value("${rsa.key.jks.location}")
+    private String location;
+
+    @Value("${rsa.key.jks.password}")
+    private String password;
+
+    @Value("${rsa.key.jks.alias}")
+    private String alias;
+
+    private static final ResourcePatternResolver resourceResolver = new PathMatchingResourcePatternResolver();
+
+    @Bean
+    public RSAKey rsaKey() {
+        Resource jksResource = resourceResolver.getResource(location);
+        RSAKey rsaKey = RSAUtils.rsaKey(jksResource, password, alias);
+        return rsaKey;
+    }
 
     @Bean
     public MultipartConfigElement multipartConfigElement() {

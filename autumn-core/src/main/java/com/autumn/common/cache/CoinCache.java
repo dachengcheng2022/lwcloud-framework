@@ -2,7 +2,7 @@ package com.autumn.common.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.autumn.mapper.wallet.TwalletMapper;
-import com.autumn.wallet.domain.coin.Tcoininfo;
+import com.autumn.domain.coin.Tcoininfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -78,3 +78,10 @@ spring:
 
 swagger:
   show: true
+
+rsa:
+  key:
+    jks:
+      location: classpath:/jwt.jks
+      password: 123456
+      alias: jwt

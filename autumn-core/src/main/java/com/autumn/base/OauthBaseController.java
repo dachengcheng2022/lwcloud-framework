@@ -2,8 +2,8 @@ package com.autumn.base;
 
 import com.autumn.constant.ErrorStatus;
 import com.autumn.exception.AuthenticationFailedException;
-import com.autumn.wallet.domain.user.MallUser;
-import com.autumn.wallet.mapper.CommonMapper;
+import com.autumn.domain.user.MallUser;
+import com.autumn.mapper.CommonMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

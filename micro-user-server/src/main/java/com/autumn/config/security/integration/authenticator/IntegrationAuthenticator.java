@@ -2,6 +2,7 @@ package com.autumn.config.security.integration.authenticator;
 
 
 import com.autumn.config.security.integration.IntegrationAuthentication;
+import com.autumn.domain.user.MallUserDetails;
 
 public interface IntegrationAuthenticator {
 
