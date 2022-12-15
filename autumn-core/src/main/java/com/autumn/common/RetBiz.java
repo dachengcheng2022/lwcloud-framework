@@ -7,8 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 public class RetBiz<T> {
 
 
-    //    1 成功
-//    0 失败
+    //    1 成功  0 失败
     private Integer status;
     //返回信息
     private String error;

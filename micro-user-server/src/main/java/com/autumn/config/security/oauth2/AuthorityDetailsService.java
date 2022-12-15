@@ -5,11 +5,9 @@ import com.autumn.config.security.exception.ExceptionEnum;
 import com.autumn.config.security.integration.IntegrationAuthentication;
 import com.autumn.config.security.integration.IntegrationAuthenticationContext;
 import com.autumn.config.security.integration.authenticator.IntegrationAuthenticator;
-import com.autumn.config.security.integration.authenticator.MallUserDetails;
+import com.autumn.domain.user.MallUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +22,6 @@ import java.util.List;
 @Component
 @Slf4j
 public class AuthorityDetailsService implements UserDetailsService {
-    private static Logger logger = LoggerFactory.getLogger(AuthorityDetailsService.class);
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -39,16 +36,17 @@ public class AuthorityDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationException {
-        if(true){
-            MallUserDetails mallUserDetails = new MallUserDetails();
-            mallUserDetails.setLoginName("admin");
-            mallUserDetails.setPassword(passwordEncoder.encode("111111"));
-            mallUserDetails.setAccountNonExpired(true);
-            mallUserDetails.setAccountNonLocked(true);
-            mallUserDetails.setCredentialsNonExpired(true);
-            mallUserDetails.setEnabled(true);
-            return mallUserDetails;
-        }
+//        if(true){
+//            MallUserDetails mallUserDetails = new MallUserDetails();
+//            mallUserDetails.setLoginName("admin");
+//            mallUserDetails.setPassword(passwordEncoder.encode("111111"));
+//            mallUserDetails.setAccountNonExpired(true);
+//            mallUserDetails.setAccountNonLocked(true);
+//            mallUserDetails.setCredentialsNonExpired(true);
+//            mallUserDetails.setEnabled(true);
+//            return mallUserDetails;
+//        }
+
         IntegrationAuthentication integrationAuthentication = IntegrationAuthenticationContext.get();
         //判断是否是集成登录
         if (integrationAuthentication == null) {

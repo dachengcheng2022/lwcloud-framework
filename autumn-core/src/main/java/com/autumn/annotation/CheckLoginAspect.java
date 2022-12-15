@@ -7,7 +7,7 @@ package com.autumn.annotation;
 import com.autumn.base.OauthBaseController;
 import com.autumn.common.RetBiz;
 import com.autumn.constant.ErrorStatus;
-import com.autumn.wallet.domain.user.MallUser;
+import com.autumn.domain.user.MallUser;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
