@@ -2,6 +2,8 @@ package com.autumn.common;
 
 public class SystemConstant {
 
+    public static final String ERROR_CONTROLLER_PATH = "/error/throw";
+
     public static final String INVITE_LINK = "INVITE_LINK";
 
     public static final String REBATE_ONE = "REBATE_ONE";

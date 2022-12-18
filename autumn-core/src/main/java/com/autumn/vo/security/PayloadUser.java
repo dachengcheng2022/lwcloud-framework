@@ -1,9 +1,11 @@
 package com.autumn.vo.security;
 
-import com.autumn.domain.user.MallUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,6 +21,8 @@ public class PayloadUser {
 
     private String id;
 
-    private MallUser mallUser;
+    private TokenUserDetails tokenUserDetails;
 
+//    过期时间
+    private LocalDateTime expirTime;
 }

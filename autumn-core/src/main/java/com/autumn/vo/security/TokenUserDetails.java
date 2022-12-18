@@ -1,14 +1,13 @@
-package com.autumn.domain.user;//package com.autumn.config.security.integration.authenticator;
+package com.autumn.vo.security;//package com.autumn.config.security.integration.authenticator;
 
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 @Data
-public class MallUserDetails extends MallUser implements UserDetails {
+public class TokenUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,14 +21,16 @@ public class MallUserDetails extends MallUser implements UserDetails {
     private boolean credentialsNonExpired;
 
     private boolean enabled;
+
+    private Integer userId;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public MallUserDetails() {
+    public TokenUserDetails() {
     }
 
-    public MallUserDetails(MallUser user, String loginName) {
-        super(user);
+    public TokenUserDetails(String loginName, String password) {
         this.loginName = loginName;
+        this.password = password;
     }
 
     @Override
@@ -39,7 +40,8 @@ public class MallUserDetails extends MallUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return StringUtils.isBlank(this.password) ? super.getPassword() : this.password;
+//        return StringUtils.isBlank(this.password) ? "" : this.password;
+        return password;
 
     }
 
@@ -50,7 +52,7 @@ public class MallUserDetails extends MallUser implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return true;
     }
 
     @Override

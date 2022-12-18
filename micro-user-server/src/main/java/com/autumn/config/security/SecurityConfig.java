@@ -1,9 +1,10 @@
 package com.autumn.config.security;
 
+import com.autumn.RedisComponent;
 import com.autumn.config.security.exception.AutumnAuthExceptionEntryPoint;
 import com.autumn.config.security.exception.WalletAccessDeniedHandler;
 import com.autumn.config.security.oauth2.AuthorityDetailsService;
-import com.autumn.domain.user.MallUserDetails;
+import com.autumn.vo.security.TokenUserDetails;
 import com.autumn.filter.IntegrationAuthenticationFilter;
 import com.autumn.filter.TokenLoginFilter;
 import com.autumn.filter.TokenVerifyFilter;
@@ -66,6 +67,8 @@ public class SecurityConfig {
     @Resource
     private AuthorityDetailsService authorityDetailsService;
 
+    @Resource
+    private RedisComponent redisComponent;
     //
 //    @Bean
 //    @Order(1)
@@ -95,17 +98,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, RSAKey rsaKey,
                                                    AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+
         return http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/user/query")
-//                .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(new TokenLoginFilter(authenticationManagerBuilder.getObject(), rsaKey),
+                .addFilterBefore(new TokenLoginFilter(authenticationManagerBuilder.getObject(), rsaKey,redisComponent),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new TokenVerifyFilter(rsaKey), BasicAuthenticationFilter.class)
+                .addFilterAfter(new TokenVerifyFilter(rsaKey,redisComponent), BasicAuthenticationFilter.class)
                 .logout()
                 .logoutUrl("/oauth2/logout")
                 .and()
@@ -183,7 +185,7 @@ public class SecurityConfig {
         objectMapper.registerModules(securityModules);
         objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
         // You will need to write the Mixin for your class so Jackson can marshall it.
-        objectMapper.addMixIn(MallUserDetails.class, UserPrincipal.class);
+        objectMapper.addMixIn(TokenUserDetails.class, UserPrincipal.class);
         rowMapper.setObjectMapper(objectMapper);
         service.setAuthorizationRowMapper(rowMapper);
         return service;

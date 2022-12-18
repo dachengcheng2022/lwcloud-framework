@@ -11,7 +11,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-//@ConfigurationPropertiesScan("com.autumn.config")
 public class UserServerApplication {
 
     public static void main(String[] args) {

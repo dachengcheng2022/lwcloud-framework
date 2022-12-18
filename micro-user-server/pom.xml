@@ -176,6 +176,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
                     <include>**/*.properties</include>
+                    <include>templates/</include>
                 </includes>
             </resource>
         </resources>
