@@ -1,6 +1,7 @@
 package com.autumn.utils;
 
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
@@ -119,7 +120,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     }
 
     public void out(HttpServletResponse response, Object data) {
-        out(response, JacksonUtils.toJsonStr(data), MediaType.APPLICATION_JSON_VALUE);
+        out(response, JSONObject.toJSONString(data), MediaType.APPLICATION_JSON_VALUE);
     }
 
     /**

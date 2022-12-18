@@ -3,7 +3,7 @@ package com.autumn.config.security.integration;
 
 import com.autumn.config.security.integration.authenticator.IntegrationAuthenticator;
 import com.autumn.domain.user.MallUser;
-import com.autumn.domain.user.MallUserDetails;
+import com.autumn.vo.security.TokenUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -20,7 +20,7 @@ public abstract class AbstractPreparableIntegrationAuthenticator implements Inte
     }};
 
     @Override
-    public abstract MallUserDetails authenticate(IntegrationAuthentication integrationAuthentication);
+    public abstract TokenUserDetails authenticate(IntegrationAuthentication integrationAuthentication);
 
     @Override
     public abstract void prepare(IntegrationAuthentication integrationAuthentication);

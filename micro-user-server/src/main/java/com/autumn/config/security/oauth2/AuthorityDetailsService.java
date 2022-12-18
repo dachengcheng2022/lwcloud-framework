@@ -5,7 +5,7 @@ import com.autumn.config.security.exception.ExceptionEnum;
 import com.autumn.config.security.integration.IntegrationAuthentication;
 import com.autumn.config.security.integration.IntegrationAuthenticationContext;
 import com.autumn.config.security.integration.authenticator.IntegrationAuthenticator;
-import com.autumn.domain.user.MallUserDetails;
+import com.autumn.vo.security.TokenUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class AuthorityDetailsService implements UserDetailsService {
             integrationAuthentication = new IntegrationAuthentication();
         }
         integrationAuthentication.setUsername(username);
-        MallUserDetails securityUserinfo = this.authenticate(integrationAuthentication);
+        TokenUserDetails securityUserinfo = this.authenticate(integrationAuthentication);
         if (StringUtils.isNotBlank(integrationAuthentication.getErrorMsg())) {
             throw new BadCredentialsException(integrationAuthentication.getErrorMsg());
         }
@@ -72,7 +72,7 @@ public class AuthorityDetailsService implements UserDetailsService {
      * @param integrationAuthentication
      * @return
      */
-    private MallUserDetails authenticate(IntegrationAuthentication integrationAuthentication) {
+    private TokenUserDetails authenticate(IntegrationAuthentication integrationAuthentication) {
         if (this.authenticators != null) {
             for (IntegrationAuthenticator authenticator : authenticators) {
                 if (authenticator.support(integrationAuthentication)) {

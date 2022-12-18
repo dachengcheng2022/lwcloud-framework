@@ -30,4 +30,7 @@ public class RedisConstant {
     public final static String USD_EXCHANGE_RATE = "USD_EXCHANGE_RATE";
 
     public static final String USER_FORGET_PW_TIME = "USER_FORGET_PW_TIME:";
+
+    public static final String USER_TOKEN_CACHE = "USER_TOKEN_CACHE:";
+
 }

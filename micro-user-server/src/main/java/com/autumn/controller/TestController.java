@@ -30,7 +30,7 @@ public class TestController {
     public String queryIndexCoins() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return "123" + authentication.getName();
+        return "hello";
     }
 
 
