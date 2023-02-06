@@ -11,10 +11,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
-public class UserServerApplication {
+public class GrpcClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserServerApplication.class, args);
+        SpringApplication.run(GrpcClientApplication.class, args);
     }
 
 

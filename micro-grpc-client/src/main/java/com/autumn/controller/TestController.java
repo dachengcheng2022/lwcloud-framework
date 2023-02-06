@@ -1,6 +1,7 @@
 package com.autumn.controller;
 
 import com.autumn.RedisComponent;
+import com.autumn.service.grpc.HelloGrpcService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -25,12 +27,14 @@ public class TestController {
     @Value("${useLocalCache:false}")
     private boolean useLocalCache;
 
-    @ApiOperation(value = "test", httpMethod = "GET", response = String.class, notes = "首页行情")
+    @Resource
+    private HelloGrpcService helloGrpcService;
+    @ApiOperation(value = "test", httpMethod = "GET", response = String.class, notes = "测试")
     @RequestMapping(value = "/test/v1/test", method = RequestMethod.GET)
     public String queryIndexCoins() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return "hello";
+        String result = helloGrpcService.helloMessage(UUID.randomUUID().toString());
+        return result;
     }
 
 
