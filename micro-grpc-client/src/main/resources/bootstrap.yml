@@ -1,0 +1,21 @@
+server:
+  port: 10751
+spring:
+  jackson:
+    time-zone: GMT+8
+  application:
+    name: grpc-client
+  profiles:
+    active: test
+  cloud:
+    nacos:
+      config:
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+        file-extension: yaml
+      discovery:
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+
+grpc:
+  client:
+    __name__:
+      address: static://localhost:10750
