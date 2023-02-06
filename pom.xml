@@ -32,7 +32,10 @@
 
     <modules>
         <module>common-redis-support</module>
-        <module>micro-user-server</module>
+<!--        <module>micro-user-server</module>-->
+        <module>micro-grpc-server</module>
+        <module>micro-grpc-client</module>
+
         <module>micro-gateway-server</module>
         <module>autumn-core</module>
         <!--        <module>common-config-server</module>-->

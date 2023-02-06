@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autumn.mapper.user.MallUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.autumn.domain.user.MallUser">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="security_pwd" property="securityPwd" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="nickname" property="nickname" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="avatar" property="avatar" />
+        <result column="common_auth" property="commonAuth" />
+        <result column="google_auth" property="googleAuth" />
+        <result column="use_google" property="useGoogle" />
+        <result column="user_level" property="userLevel" />
+        <result column="invitation_code" property="invitationCode" />
+        <result column="pid" property="pid" />
+        <result column="status" property="status" />
+        <result column="update_time" property="updateTime" />
+        <result column="add_time" property="addTime" />
+        <result column="deleted" property="deleted" />
+        <result column="start_level" property="startLevel" />
+        <result column="start_relationship" property="startRelationship" />
+        <result column="version" property="version" />
+        <result column="security_updatetime" property="securityUpdatetime" />
+        <result column="oauth_mobile" property="oauthMobile" />
+        <result column="oauth_email" property="oauthEmail" />
+        <result column="consum_amount" property="consumAmount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, security_pwd, gender, birthday, last_login_time, last_login_ip, nickname, email, mobile, avatar, common_auth, google_auth, use_google, user_level, invitation_code, pid, status, update_time, add_time, deleted, start_level, start_relationship, version, security_updatetime, oauth_mobile, oauth_email, consum_amount
+    </sql>
+
+</mapper>

@@ -1,0 +1,16 @@
+server:
+  port: 10761
+spring:
+  jackson:
+    time-zone: GMT+8
+  application:
+    name: user-server
+  profiles:
+    active: test
+  cloud:
+    nacos:
+      config:
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+        file-extension: yaml
+      discovery:
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
