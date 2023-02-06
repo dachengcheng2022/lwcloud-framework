@@ -85,3 +85,7 @@ rsa:
       location: classpath:/jwt.jks
       password: 123456
       alias: jwt
+
+grpc:
+  server:
+    port: 10750

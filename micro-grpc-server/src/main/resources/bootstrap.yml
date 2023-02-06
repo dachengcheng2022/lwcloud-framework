@@ -1,5 +1,3 @@
-server:
-  port: 10750
 spring:
   jackson:
     time-zone: GMT+8
