@@ -6,11 +6,15 @@ import com.autumn.web3j.SyncedWeb3jProvider;
 import com.autumn.web3j.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.protocol.core.*;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.utils.Numeric;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -62,7 +66,7 @@ public class NodeProvider {
                 fromAddress, DefaultBlockParameterName.LATEST).send();
         if (ethGetTransactionCount.hasError()) {
             Response.Error error = ethGetTransactionCount.getError();
-            throw new CommonException(String.format("Unable to get transaction count for address '%s' due to '%s', error code '%s'", fromAddress, error.getMessage(), error.getCode()));
+            throw new CommonException(String.format("Unable to get transaction count for address.txt '%s' due to '%s', error code '%s'", fromAddress, error.getMessage(), error.getCode()));
         }
         return ethGetTransactionCount.getTransactionCount();
     }
@@ -87,13 +91,16 @@ public class NodeProvider {
         return null;
     }
 
-    public EthCall getTokenBalance(String address, String contractAddress, DefaultBlockParameter defaultBlockParameter) throws InterruptedException, ExecutionException, TimeoutException {
+    public BigDecimal getTokenBalance(String address, String contractAddress,Integer decimal) throws InterruptedException, ExecutionException, TimeoutException {
         String data = encode(SimilarErc20.balanceOf(address));
         org.web3j.protocol.core.methods.request.Transaction ethCallTransaction = org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(address, contractAddress, data);
-        CompletableFuture<EthCall> ethCall = this.syncedWeb3JProvider.getSyncedWeb3j().ethCall(ethCallTransaction, defaultBlockParameter).sendAsync();
+        CompletableFuture<EthCall> ethCall = this.syncedWeb3JProvider.getSyncedWeb3j().ethCall(ethCallTransaction, DefaultBlockParameterName.LATEST).sendAsync();
         EthCall ethCall1 = ethCall.get(10, TimeUnit.SECONDS);
-        String value = ethCall1.getValue();
-        return ethCall1;
+
+        Function function = SimilarErc20.balanceOf(address);
+        List<Type> results = FunctionReturnDecoder.decode(ethCall1.getValue(), function.getOutputParameters());
+        BigInteger balanceValue = (BigInteger) results.get(0).getValue();
+        return balanceValue == null ? BigDecimal.ZERO:new BigDecimal(balanceValue).movePointLeft(decimal);
     }
 
     public EthCall ethCallContract(org.web3j.protocol.core.methods.request.Transaction ethCallTransaction,DefaultBlockParameter defaultBlockParameter) throws InterruptedException, ExecutionException, TimeoutException {
