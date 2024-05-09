@@ -13,7 +13,7 @@
 
     <properties>
         <efk.app_name>${project.artifactId}</efk.app_name>
-        <efk.log_level>DEBUG</efk.log_level>
+        <efk.log_level>INFO</efk.log_level>
     </properties>
 
     <name>${project.artifactId}</name>

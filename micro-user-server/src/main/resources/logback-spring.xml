@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <logger name="org.apache" level="INFO" />
+    <logger name="org.apache.http.wire" level="INFO" />
+    <logger name="org.apache.http.headers" level="INFO" />
     <property name="APP_NAME" value="@efk.app_name@" />
     <property name="LOG_LEVEL" value="@efk.log_level@" /> <!-- DEBUG,INFO,WARN,ERROR,FATAL -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -89,7 +92,7 @@
         <appender-ref ref="infoFileAppender"/>
     </logger>
 
-    <root level="${LOG_LEVEL}">
+    <root level="@efk.log_level@">
         <appender-ref ref="errorFileAppender"/>
         <appender-ref ref="warnFileAppender"/>
         <appender-ref ref="infoFileAppender"/>
