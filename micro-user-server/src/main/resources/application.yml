@@ -48,6 +48,7 @@ spring:
     filters: stat,wall,log4j
 
   redis:
+    enabled: false
     database: 2
     host: 120.76.176.30
     password: lpladUS6
@@ -59,6 +60,7 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 1
+        enabled: false
 
   cloud:
     nacos:
@@ -85,3 +87,23 @@ rsa:
       location: classpath:/jwt.jks
       password: 123456
       alias: jwt
+
+# Rocket MQ configuration
+rocketmq:
+#  命名服务器地址。
+  nameServer: 192.168.31.185:9876
+  producer:
+#     生产者组名称，此处直接使用服务名。
+    group: ${spring.application.name}
+    # 发送消息超时时间，默认3000
+    sendMessageTimeout: 10000
+    # 发送消息失败重试次数，默认2
+    retryTimesWhenSendFailed: 2
+    # 异步消息重试此处，默认2
+    retryTimesWhenSendAsyncFailed: 2
+    # 消息最大长度，默认1024 * 1024 * 4(默认4M)
+    maxMessageSize: 4096
+    # 压缩消息阈值，默认4k(1024 * 4)
+    compressMessageBodyThreshold: 4096
+    # 是否在内部发送失败时重试另一个broker，默认false
+    retryNextServer: false

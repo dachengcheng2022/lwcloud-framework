@@ -57,11 +57,11 @@
 <!--            <artifactId>spring-security-oauth2-authorization-server</artifactId>-->
 <!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.autumn</groupId>
-            <artifactId>common-redis-support</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.autumn</groupId>-->
+<!--            <artifactId>common-redis-support</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

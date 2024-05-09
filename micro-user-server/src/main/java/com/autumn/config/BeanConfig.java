@@ -1,7 +1,6 @@
 package com.autumn.config;
 
 
-import com.autumn.filter.IntegrationAuthenticationFilter;
 import com.autumn.utils.security.RSAUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -34,6 +33,7 @@ import org.springframework.security.jackson2.CoreJackson2Module;
 import org.springframework.util.StringUtils;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
@@ -108,14 +108,6 @@ public class BeanConfig {
             }
         };
     }
-
-    @Bean
-    public FilterRegistrationBean registrationBean(IntegrationAuthenticationFilter filter) {
-        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-
 
 
     /**
@@ -211,4 +203,8 @@ public class BeanConfig {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
 
+    @Bean
+    public InternalResourceViewResolver defaultViewResolver() {
+        return new InternalResourceViewResolver();
+    }
 }

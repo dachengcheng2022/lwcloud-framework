@@ -17,7 +17,7 @@ import java.sql.SQLException;
 /**
  * Created by simba on 2016/12/1 0001.
  */
-@Configuration
+//@Configuration
 public class DruidDBConfig {
     private static final String DB_PREFIX = "spring.datasource";
 
