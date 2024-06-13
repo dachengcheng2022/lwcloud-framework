@@ -1,22 +1,15 @@
 package com.autumn.component;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.autumn.utils.HttpClient;
 import com.autumn.utils.HttpUtils;
 import com.autumn.web3.NodeProvider;
 import com.autumn.web3j.SyncedWeb3jProvider;
-import org.apache.ibatis.transaction.Transaction;
-import org.checkerframework.common.value.qual.ArrayLen;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.crypto.TransactionDecoder;
-import org.web3j.protocol.core.DefaultBlockParameter;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -32,14 +25,36 @@ public class Web3WalletTest {
         SyncedWeb3jProvider syncedWeb3jProvider = new SyncedWeb3jProvider(endpoint);
         nodeProvider= new NodeProvider(syncedWeb3jProvider);
 
+    }
 
+    @Test
+    public void query_tokenBlance_withWeb3j() throws IOException, ExecutionException, InterruptedException, TimeoutException {
+        String contract = "0x5faa989af96af85384b8a938c2ede4a7378d9875";
+        String mainAddress = "0x8fca4ade3a517133ff23ca55cdaea29c78c990b8";
+        Integer decimal = 18;
 
+        BigDecimal maintokenBalance = nodeProvider.getTokenBalance(mainAddress, contract, decimal);
+
+        System.err.println("mainaddress= " + maintokenBalance);
+
+        List<String> strings = way2ByFile();
+        BigDecimal all = strings.stream().map(v -> {
+            try {
+                BigDecimal tokenBalance = nodeProvider.getTokenBalance(v, contract, decimal);
+                System.err.println("dacheng__  " + v + "  _______ " + tokenBalance);
+                return tokenBalance;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.err.println("all="+all);
     }
 
     @Test
     public void query_tokenBlance() throws IOException {
-        String contract = "0x4c3e460b8e8285de57c8b1b2b688847b995b71d6";
-        String mainAddress = "0xf6cec788bfff5c9c00debb97d184b28069824d84";
+        String contract = "0x5faa989af96af85384b8a938c2ede4a7378d9875";
+        String mainAddress = "0x8fca4ade3a517133ff23ca55cdaea29c78c990b8";
         String formatmain = String.format(str, contract, mainAddress);
         String resultmain = HttpUtils.doGetSSL(formatmain, null, null);
 
@@ -79,8 +94,5 @@ public class Web3WalletTest {
         return address;
     }
 
-    public static void main(String[] args) {
-        RawTransaction decode = TransactionDecoder.decode("0xf86e808402faf080830493e094e82c8a9b11ddf3075b0ffec5f1d06803713aeff9872386f26fc10000808302b693a02c0ad3c4614f6b0980959e689d7d1cb4b80bb6c16e4d5427db9d05d5d85d1e77a06532445cc8f2773a8175c4d0628b52d37887a16ec47d1ae59da4df26227ed336");
-        System.err.println(decode);
-    }
+
 }
